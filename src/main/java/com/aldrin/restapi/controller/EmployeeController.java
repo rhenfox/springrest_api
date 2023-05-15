@@ -33,16 +33,16 @@ public class EmployeeController {
     @Autowired
     private EmployeeService empService;
 
-    @Value("${app.name}")
-    private String appName;
-
-    @Value("${app.version:version 1}")
-    private String appVersion;
-
-    @GetMapping("/version")
-    public String getAppDetails() {
-        return appName + " - " + appVersion;
-    }
+//    @Value("${app.name}")
+//    private String appName;
+//
+//    @Value("${app.version:version 1}")
+//    private String appVersion;
+//
+//    @GetMapping("/version")
+//    public String getAppDetails() {
+//        return appName + " - " + appVersion;
+//    }
 
 //    @GetMapping("/list")
 //    public String getEmployeeList(){
