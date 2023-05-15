@@ -1,0 +1,50 @@
+## YAML Template.
+---
+spring:
+    datasource:
+        url: jdbc:mysql://root:EmGg1yjuc7lx4qprXeVs@containers-us-west-174.railway.app:7374/railway?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+        username: root
+        password: EmGg1yjuc7lx4qprXeVs
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+#    jpa:
+##        show-sql: true
+#        hibernate:
+#            ddl-auto: update
+##            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+##        properties:
+##            hibernate:
+##                dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+#    security:
+#      oauth2:
+#        client:
+#          registration:
+#            google:
+#              clientId: 446826806564-qpk9bmeteqq9l2fja8p88nb9drr1tgbc.apps.googleusercontent.com
+#              clientSecret: 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
+#              scope:
+#                - email
+#                - profile
+#            facebook:
+#              clientId: 151383627671358
+#              clientSecret: a35dd72a2a16a8c617e5b858cab1b905
+##              callbackURL: http://localhost:8080/oauth2/authorization/facebook
+#              scope:
+#                - email
+#                - public_profile   
+###          authorization-grant-type: authorization_code
+###          redirect-uri-template: localhost:8080/login/oauth2/code/{registrationId}
+###          client-name: Facebook
+#
+#            github:
+#                clientId: 053e68ff9e9e15a0d464
+#                clientSecret: c35877af1dbc40f65eddbef0fdba43216f365a23
+#                scope:
+#                    - user:email
+#                    - read:user
+            
+
+
+     
+                
+                
