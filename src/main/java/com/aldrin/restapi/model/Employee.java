@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import lombok.Getter;
@@ -34,7 +35,8 @@ public class Employee {
     private Long id;
 //    @JsonProperty("full_name")
     
-    @NotNull(message ="Name should not be null")
+//    @NotNull(message ="Name should not be null")
+    @NotBlank(message ="Name should not be null")
     private String name;
 //    @JsonIgnore
     private Long age =0L;

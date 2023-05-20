@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,6 +43,7 @@ public class EmployeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository empRepository;
 
+    
     @Override
     public List<Employee> getEmployee() {
         return empRepository.findAll();
@@ -61,12 +65,55 @@ public class EmployeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
-         empRepository.deleteById(id);
+        empRepository.deleteById(id);
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
         return empRepository.save(employee);
     }
+
+    @Override
+    public List<Employee> getEmployeesByName(String name) {
+        return empRepository.findByName(name);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByNameAndLocation(String name, String location) {
+        return empRepository.findByNameAndLocation(name, location);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByKeyword(String name) {
+        return empRepository.findByNameContaining(name);
+    }
+
+    //paging 
+    @Override
+    public List<Employee> getEmployee(int pageNumber, int pageSize) {
+        Pageable pages =PageRequest.of(pageNumber, pageSize);
+        return empRepository.findAll(pages).getContent();
+    }
+    
+    //sorting
+     @Override
+    public List<Employee> getEmployeesSortByKeyword(String name) {
+        Sort sort = Sort.by(Sort.Direction.ASC,"id");
+        return empRepository.findByNameContaining(name,sort);
+        
+    }
+    
+    //paging and sorting
+    @Override
+    public List<Employee> getEmployeePagingAndSorting(int pageNumber, int pageSize) {
+        Pageable pages =PageRequest.of(pageNumber, pageSize,Sort.Direction.DESC,"id","name");
+        return empRepository.findAll(pages).getContent();
+    }
+
+    @Override
+    public List<Employee> getEmployeeNameOrLocation(String name, String location) {
+     return empRepository.getEmployeeByNameOrLocation(name, location);
+    }
+    
 
 }
