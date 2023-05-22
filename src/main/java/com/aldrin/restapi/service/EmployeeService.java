@@ -37,4 +37,5 @@ public interface EmployeeService {
     
     List<Employee> getEmployeeNameOrLocation(String name, String location);
     
+    Integer deleteEmployeeByName(String name);
 }

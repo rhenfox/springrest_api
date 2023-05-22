@@ -4,7 +4,11 @@
  */
 package com.aldrin.restapi.controller;
 
+import com.aldrin.restapi.model.Department;
 import com.aldrin.restapi.model.Employee;
+import com.aldrin.restapi.repository.DepartmentRepository;
+import com.aldrin.restapi.repository.EmployeeRepository;
+import com.aldrin.restapi.request.EmployeeRequest;
 import com.aldrin.restapi.service.EmployeeService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -34,6 +38,13 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService empService;
+
+    @Autowired
+    private DepartmentRepository deptRepository;
+    
+    @Autowired
+    private EmployeeRepository empRepository;
+            
 
 //    @Value("${app.name}")
 //    private String appName;
@@ -75,6 +86,18 @@ public class EmployeeController {
     @PostMapping("/add")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         return new ResponseEntity<>(empService.saveEmployee(employee), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/addEwD")
+    public ResponseEntity<Employee> saveEmployeeWithDepartment(@Valid @RequestBody EmployeeRequest empRequest) {
+        Department dept = new Department();
+        dept.setName(empRequest.getDepartment());
+        dept = deptRepository.save(dept);
+        Employee employee = new Employee(empRequest);
+        employee.setDepartment(dept);
+        employee =empRepository.save(employee);
+        return new ResponseEntity<Employee>(employee,HttpStatus.CREATED);
+        
     }
 
 //    @GetMapping("/info/{id}")
@@ -120,26 +143,41 @@ public class EmployeeController {
     //paging
     @GetMapping("/listPaging")
     public ResponseEntity<List<Employee>> getEmployeeListPaging(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-        return new ResponseEntity<List<Employee>>(empService.getEmployee(pageNumber,pageSize), HttpStatus.OK);
+        return new ResponseEntity<List<Employee>>(empService.getEmployee(pageNumber, pageSize), HttpStatus.OK);
     }
-    
+
     //sorting
     @GetMapping("/filterBySortingKeyword")
     public ResponseEntity<List<Employee>> getEmployeeSortByKeyword(@RequestParam String name) {
         return new ResponseEntity<List<Employee>>(empService.getEmployeesByKeyword(name), HttpStatus.OK);
     }
-    
+
     //paging and sorting
     @GetMapping("/listPagingAndSorting")
     public ResponseEntity<List<Employee>> getEmployeeListPageAndSort(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-        return new ResponseEntity<List<Employee>>(empService.getEmployeePagingAndSorting(pageNumber,pageSize), HttpStatus.OK);
+        return new ResponseEntity<List<Employee>>(empService.getEmployeePagingAndSorting(pageNumber, pageSize), HttpStatus.OK);
     }
-    
+
     //query param 
     @GetMapping("/list/{name}/{location}")
     public ResponseEntity<List<Employee>> getEmployeeEmployeeOrLocation(@PathVariable String name, @PathVariable String location) {
         return new ResponseEntity<List<Employee>>(empService.getEmployeeNameOrLocation(name, location), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<String> deleteEmployeeByName(@PathVariable String name) {
+        return new ResponseEntity<String>(empService.deleteEmployeeByName(name) + "No. of records deleted", HttpStatus.OK);
+    }
     
+//    @GetMapping("/listEwD/{name}")
+//    public ResponseEntity<List<Employee>> getEmployeeByDepartment(@PathVariable String name){
+//      return new ResponseEntity<List<Employee>>(empRepository.findByDepartmentName(name), HttpStatus.OK);
+//    }
+    
+    @GetMapping("/listEwD/{name}")
+    public ResponseEntity<List<Employee>> getEmployeeByDepartment(@PathVariable String name){
+//      return new ResponseEntity<List<Employee>>(empRepository.findByDepartmentName(name), HttpStatus.OK);
+    return new ResponseEntity<List<Employee>>(empRepository.getEmployeeByDeptName(name),HttpStatus.OK);
+    }
 
 }
